@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jumia.business.dao.CustomerRepo;
 import com.jumia.business.dto.JumiaFullNumber;
+import com.jumia.business.dto.PhoneTotal;
 import com.jumia.business.util.InternationalPhone;
 
 @Service
@@ -28,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
 		JumiaFullNumber jumiaFullNumber = null;
 		List<JumiaFullNumber> jumiaFullNumberList = new ArrayList<JumiaFullNumber>();
 		List<JumiaFullNumber> jumiaFullNumberListFilterd = new ArrayList<JumiaFullNumber>();
-		List<String> allPhones = null;
+		List<PhoneTotal> allPhones = null;
 
 		// getting phones from database.
 		try {
@@ -39,20 +40,21 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 
 		// setting up the DTO object.
-		for (String phone : allPhones) {
+		for (PhoneTotal phone : allPhones) {
 
 			// getting country name based on REGEX.
-			String countryName = internationalPhoneHelper.getCountryByPhone(phone);
+			String countryName = internationalPhoneHelper.getCountryByPhone(phone.getPhone());
 
 			if (countryName != null) {
 				jumiaFullNumber = new JumiaFullNumber();
+				jumiaFullNumber.setTotal(phone.getTotal());
 				jumiaFullNumber.setCountry(countryName);
-				jumiaFullNumber.setPhone(phone.split(" ")[1]);
+				jumiaFullNumber.setPhone(phone.getPhone().split(" ")[1]);
 				jumiaFullNumber.setState("valid");
 				if (countryName == "unknown") {
 					jumiaFullNumber.setState("notValid");
 				}
-				jumiaFullNumber.setCode(phone.split(" ")[0]);
+				jumiaFullNumber.setCode(phone.getPhone().split(" ")[0]);
 
 				jumiaFullNumberList.add(jumiaFullNumber);
 

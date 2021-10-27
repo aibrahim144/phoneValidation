@@ -9,6 +9,18 @@ public class JumiaFullNumber {
 	private String phone;
 	
 	private String code;
+	
+	private String total;
+	
+	
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
 
 	public String getState() {
 		return state;

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.jumia.business.dao.CustomerRepo;
 import com.jumia.business.dto.JumiaFullNumber;
+import com.jumia.business.dto.PhoneTotal;
 import com.jumia.business.services.CustomerService;
 import com.jumia.business.util.InternationalPhone;
 
@@ -39,7 +40,7 @@ class JumiapayApplicationTests {
 	@Test
 	void allPhonesNoParams() throws ClientProtocolException, IOException {
 
-		HttpUriRequest request = new HttpGet("http://localhost:8080/customer/allPhones");
+		HttpUriRequest request = new HttpGet("http://localhost:8090/customer/allPhones");
 		HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
 		assertThat(httpResponse.getStatusLine().getStatusCode()).isEqualTo(200);
 	}
@@ -47,7 +48,7 @@ class JumiapayApplicationTests {
 	@Test
 	void allPhonesParamsNoOffset() throws ClientProtocolException, IOException {
 
-		HttpUriRequest request = new HttpGet("http://localhost:8080/customer/allPhones?state=valid&country=Cameroon");
+		HttpUriRequest request = new HttpGet("http://localhost:8090/customer/allPhones?state=valid&country=Cameroon");
 		HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
 		assertThat(httpResponse.getStatusLine().getStatusCode()).isEqualTo(200);
 	}
@@ -56,7 +57,7 @@ class JumiapayApplicationTests {
 	void allPhonesParamsOffset() throws ClientProtocolException, IOException {
 
 		HttpUriRequest request = new HttpGet(
-				"http://localhost:8080/customer/allPhones?state=valid&country=Cameroon&offset=0&next=10");
+				"http://localhost:8090/customer/allPhones?state=valid&country=Cameroon&offset=0&next=10");
 		HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
 		assertThat(httpResponse.getStatusLine().getStatusCode()).isEqualTo(200);
 	}
@@ -65,7 +66,7 @@ class JumiapayApplicationTests {
 	void PhonesParamsNotValid() throws ClientProtocolException, IOException {
 
 		HttpUriRequest request = new HttpGet(
-				"http://localhost:8080/customer/allPhones?state=notValid&country=unknown&offset=0");
+				"http://localhost:8090/customer/allPhones?state=notValid&country=unknown&offset=0");
 		HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
 		assertThat(httpResponse.getStatusLine().getStatusCode()).isEqualTo(200);
 	}
@@ -94,7 +95,7 @@ class JumiapayApplicationTests {
 	@Test
 	void getAllCustomersPhones() {
 
-		List<String> allPhones = customerRepository.getAllCustomersPhones("0", "max");
+		List<PhoneTotal> allPhones = customerRepository.getAllCustomersPhones("0", "max");
 		assertTrue(!allPhones.isEmpty());
 	}
 
