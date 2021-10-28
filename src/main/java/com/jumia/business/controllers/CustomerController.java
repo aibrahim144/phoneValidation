@@ -51,12 +51,19 @@ public class CustomerController {
 		try {
 
 			allFullNumbers = customerService.getCustomersPhones(country, state, offset, next);
+			
+			if(allFullNumbers.size() < 1) {
+				return allFullNumbers;
+			}
 
 			
 			// for pagination of filtered data
 			if (country != null && state != null && filterdNext != 0 ) {
 				if(filterdNext > allFullNumbers.size() || (filterdOffset + filterdNext) > allFullNumbers.size()) {
 					filterdNext = allFullNumbers.size();
+				}
+				if(filterdOffset >= allFullNumbers.size()) {
+					filterdOffset = 0;
 				}
 				allFullNumbersFiltered = allFullNumbers.subList(filterdOffset, filterdNext);
 				allFullNumbersFiltered.get(0).setTotal("" + allFullNumbers.size());
